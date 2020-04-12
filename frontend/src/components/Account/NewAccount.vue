@@ -1,0 +1,101 @@
+<template lang="html">
+	<div class="container">
+
+		<div class="row">
+			<div class="col text-left">
+				<h2>Crear Cuenta</h2>
+			</div>	
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<form @submit="onSubmit">
+							
+							<div class="form-group row">
+								<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+								<div class="col-sm-6">
+									<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="saldo" class="col-sm-2 col-form-label">Saldo</label>
+								<div class="col-sm-6">
+									<input type="number" name="saldo" class="form-control" v-model.trin="form.saldo">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
+								<div class="col-sm-6">
+									<input type="text"  name="title" class="form-control" v-model.trin="form.tipo">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="estado" class="col-sm-2 col-form-label">Estado</label>
+								<div class="col-sm-6">
+									<input type="text" placeholder="Estado" name="estado" class="form-control" v-model.trin="form.estado">
+								</div>
+							</div>
+
+
+							<div class="rows">
+								<div class="col text-left">
+									<b-button type="submit" variant="primary">Crear</b-button>
+									<b-button type="submit" class="btn-large-space" :to="{ name: 'ListAccount' }">Cancelar</b-button>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</template>
+
+<script>
+	import axios from 'axios'
+	import swal from 'sweetalert'
+	export default {
+		data(){
+			return{
+				form: {
+					nombre: '',
+					saldo: '',
+					tipo:'',
+					estado:''
+				}
+			}
+		},
+
+		methods: {
+			onSubmit(evt){
+				evt.preventDefault()
+				const path = 'http://localhost:8000/api/v1.0/accounts/'
+				axios.post(path, this.form).then((response) => {
+					this.form.nombre = response.data.nombre
+					this.form.saldo = response.data.saldo
+					this.form.tipo = response.data.tipo
+					this.form.estado = response.data.estado
+					swal("Cuenta creado exitosamente","","success")
+				})
+				.catch((error) => {
+					swal("La cuenta no ha sido creada","","error")
+				})
+
+			},
+
+		},
+		created(){
+		}
+	}	
+</script>
+
+<style lang="css" scoped>
+	
+</style>
