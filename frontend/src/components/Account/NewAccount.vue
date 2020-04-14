@@ -30,14 +30,14 @@
 							<div class="form-group row">
 								<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
 								<div class="col-sm-6">
-									<input type="text"  name="title" class="form-control" v-model.trin="form.tipo">
+									<input type="text"  name="tipo" class="form-control" v-model.trin="form.tipo">
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<label for="estado" class="col-sm-2 col-form-label">Estado</label>
 								<div class="col-sm-6">
-									<input type="text" placeholder="Estado" name="estado" class="form-control" v-model.trin="form.estado">
+									<input type="text" name="estado" class="form-control" v-model.trin="form.estado">
 								</div>
 							</div>
 

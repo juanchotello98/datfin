@@ -1,10 +1,11 @@
-<template lang="html">
+<template lansg="html">
 	<div class="container">
 		<div class="row">
 			<div class="col text-left">
 				<div>
 					<h2>Listado de Categorias</h2>
 					<b-button size="sm" :to="{name: 'NewCategory'}" variant="primary" >Crear Categorias</b-button>
+					<b-button size="sm" :to="{name: 'ListBudget'}" variant="secondary" >Volver</b-button>
 				</div>
 				<br>
 			</div>

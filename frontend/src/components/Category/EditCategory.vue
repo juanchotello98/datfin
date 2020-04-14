@@ -21,9 +21,9 @@
 							</div>
 
 							<div class="form-group row">
-								<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
+								<label for="planeado" class="col-sm-2 col-form-label">Tipo</label>
 								<div class="col-sm-6">
-									<input type="number"  name="tipo" class="form-control" v-model.trin="form.planeado">
+									<input type="number"  name="planeado" class="form-control" v-model.trin="form.planeado">
 								</div>
 							</div>
 

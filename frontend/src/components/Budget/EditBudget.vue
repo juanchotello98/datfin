@@ -69,7 +69,7 @@
 					this.form.total_actual = response.data.total_actual
 					this.form.tipo = response.data.tipo
 					this.form.estado = response.data.estado
-					swal("Cuenta actualizada exitosamente","","success")
+					swal("Presupuesto actualizado exitosamente","","success")
 				})
 				.catch((error) => {
 					console.log(error)

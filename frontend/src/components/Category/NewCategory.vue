@@ -21,30 +21,30 @@
 							</div>
 							
 							<div class="form-group row">
-								<label for="total_planeado" class="col-sm-2 col-form-label">Planeado</label>
+								<label for="planeado" class="col-sm-2 col-form-label">Planeado</label>
 								<div class="col-sm-6">
-									<input type="number" name="total_planeado" class="form-control" v-model.trin="form.planeado">
+									<input type="number" name="planeado" class="form-control" v-model.trin="form.planeado">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="total_actual" class="col-sm-2 col-form-label">Actual</label>
+								<label for="actual" class="col-sm-2 col-form-label">Actual</label>
 								<div class="col-sm-6">
-									<input type="number" name="total_actual" class="form-control" v-model.trin="form.actual">
+									<input type="number" name="actual" class="form-control" v-model.trin="form.actual">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="tipo" class="col-sm-2 col-form-label">Diferencia</label>
+								<label for="diferencia" class="col-sm-2 col-form-label">Diferencia</label>
 								<div class="col-sm-6">
-									<input type="text"  name="tipo" class="form-control" v-model.trin="form.diferencia">
+									<input type="text"  name="diferencia" class="form-control" v-model.trin="form.diferencia">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="estado" class="col-sm-2 col-form-label">Presupuesto</label>
+								<label for="presupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
 								<div class="col-sm-6">
-									<input type="text" name="estado" class="form-control" v-model.trin="form.presupuesto">
+									<input type="text" name="presupuesto" disabled="true" class="form-control" v-model.trin=budgetId>
 								</div>
 							</div>
 
@@ -52,7 +52,7 @@
 							<div class="rows">
 								<div class="col text-left">
 									<b-button type="submit" variant="primary">Crear</b-button>
-									<b-button type="submit" class="btn-large-space" :to="{ name: 'ListCategory', params: { budgetd: budgetId   } }">Cancelar</b-button>
+									<b-button type="submit" class="btn-large-space" :to="{ name: 'ListCategory', params: { budgetId: budgetId   } }">Cancelar</b-button>
 								</div>
 							</div>
 

@@ -8,6 +8,8 @@ import ListBudget from '@/components/Budget/ListBudget'
 import EditBudget from '@/components/Budget/EditBudget'
 import NewBudget from '@/components/Budget/NewBudget'
 import ListCategory from '@/components/Category/ListCategory'
+import NewCategory from '@/components/Category/NewCategory'
+import EditCategory from '@/components/Category/EditCategory'
 Vue.use(Router)
 
 export default new Router({
@@ -51,7 +53,17 @@ export default new Router({
       path: '/categories/:budgetId/list',
       name: 'ListCategory',
       component: ListCategory
-    }
+    },
+    {
+      path: '/categories/:budgetId/new',
+      name: 'NewCategory',
+      component: NewCategory
+    },
+    {
+      path: '/categories/:budgetId/:categoryId/edit',
+      name: 'EditCategory',
+      component: EditCategory
+    },
   ],
   mode: 'history'
 })

@@ -13,7 +13,7 @@
 					<template v-slot:cell(action)="data">
 						<b-button size="sm" variant="primary" :to="{ name: 'EditBudget', params: { budgetId: data.item.id } }">Editar</b-button>
 						<b-button size="sm" variant="secondary" :to="{ name: 'ListCategory', params: { budgetId: data.item.id } }">Ver Categorias</b-button>
-						<b-button size="sm" variant="success" :to="{ name: '', params: { budgetId: data.item.id } }">Crear Categorias</b-button>
+						<b-button size="sm" variant="success" :to="{ name: 'NewCategory', params: { budgetId: data.item.id } }">Crear Categorias</b-button>
 					</template>
 				</b-table>
 			</div>
@@ -39,7 +39,7 @@
 			}
 		},
 		methods: {
-			getAccounts(){
+			getBudgets(){
 				const path = 'http://localhost:8000/api/v1.0/budgets/'
 				axios.get(path).then((response) => {
 					this.budgets = response.data
@@ -51,7 +51,7 @@
 		},
 
 		created(){
-			this.getAccounts()
+			this.getBudgets()
 		}
 	}
 </script>
