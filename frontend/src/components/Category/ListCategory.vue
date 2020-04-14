@@ -1,4 +1,4 @@
-<template lansg="html">
+<template lang="html">
 	<div class="container">
 		<div class="row">
 			<div class="col text-left">
