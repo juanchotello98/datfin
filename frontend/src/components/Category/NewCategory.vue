@@ -89,7 +89,6 @@
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/categories/'
 				axios.post(path, this.form).then((response) => {
-					this.form.id = response.data.id
 					this.form.nombre = response.data.nombre
 					this.form.planeado = response.data.planeado
 					this.form.actual = response.data.actual
