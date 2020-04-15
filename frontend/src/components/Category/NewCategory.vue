@@ -44,7 +44,7 @@
 							<div class="form-group row">
 								<label for="presupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
 								<div class="col-sm-6">
-									<input type="text" name="presupuesto" disabled="true" class="form-control" v-model.trin=budgetId>
+									<input type="text" name="presupuesto" disabled="true" class="form-control" v-model.trin="form.presupuesto=budgetId">
 								</div>
 							</div>
 
@@ -78,16 +78,18 @@
 					planeado: '',
 					actual:'',
 					diferencia:'',
-					presupuesto:''
+					presupuesto: ''
 				}
 			}
 		},
 
 		methods: {
 			onSubmit(evt){
+				budgetId: this.$route.params.budgetId,
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/categories/'
 				axios.post(path, this.form).then((response) => {
+					this.form.id = response.data.id
 					this.form.nombre = response.data.nombre
 					this.form.planeado = response.data.planeado
 					this.form.actual = response.data.actual
