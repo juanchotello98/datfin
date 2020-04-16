@@ -30,17 +30,28 @@
 							<div class="form-group row">
 								<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
 								<div class="col-sm-6">
-									<input type="text"  name="tipo" class="form-control" v-model.trin="form.tipo">
+									<input type="text" disabled="true" name="tipo" class="form-control" v-model.trin="form.tipo=selectedtype">
 								</div>
+								<div class="col-sm-1">
+    								<b-form-radio v-model="selectedtype" name="some-radios" value="debito">debito</b-form-radio>
+    							</div>
+						  		<div class="col-xs-5">
+    								<b-form-radio v-model="selectedtype" name="some-radios" value="credito">credito</b-form-radio>
+    							</div>
 							</div>
 
 							<div class="form-group row">
 								<label for="estado" class="col-sm-2 col-form-label">Estado</label>
 								<div class="col-sm-6">
-									<input type="text" name="estado" class="form-control" v-model.trin="form.estado">
+									<input type="text" disabled="true" name="estado" class="form-control" v-model.trin="form.estado=selectedstate">
 								</div>
+						  		<div class="col-sm-1">
+    								<b-form-radio v-model="selectedstate" name="some-radios-" value="activa">activa</b-form-radio>
+    							</div>
+						  		<div class="col-xs-5">
+    								<b-form-radio v-model="selectedstate" name="some-radios-" value="inactiva">inactiva</b-form-radio>
+    							</div>
 							</div>
-
 
 							<div class="rows">
 								<div class="col text-left">
@@ -64,6 +75,9 @@
 	export default {
 		data(){
 			return{
+
+				selectedtype: '',
+				selectedstate: '',
 				form: {
 					nombre: '',
 					saldo: '',
@@ -77,11 +91,12 @@
 			onSubmit(evt){
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/accounts/'
-				axios.post(path, this.form).then((response) => {
+				axios.post(path, this.form, this.selected, this.selected).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.saldo = response.data.saldo
 					this.form.tipo = response.data.tipo
 					this.form.estado = response.data.estado
+					
 					swal("Cuenta creado exitosamente","","success")
 				})
 				.catch((error) => {
