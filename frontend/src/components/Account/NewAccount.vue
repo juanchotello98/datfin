@@ -91,7 +91,7 @@
 			onSubmit(evt){
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/accounts/'
-				axios.post(path, this.form, this.selected, this.selected).then((response) => {
+				axios.post(path, this.form).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.saldo = response.data.saldo
 					this.form.tipo = response.data.tipo
