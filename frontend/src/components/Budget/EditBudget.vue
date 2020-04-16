@@ -21,10 +21,16 @@
 							</div>
 
 							<div class="form-group row">
-								<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
+								<label for="estado" class="col-sm-2 col-form-label">Estado</label>
 								<div class="col-sm-6">
-									<input type="text"  name="tipo" class="form-control" v-model.trin="form.tipo">
+									<input type="text" disabled="true" name="estado" class="form-control" v-model.trin="form.estado=selectedstate">
 								</div>
+						  		<div class="col-sm-1">
+    								<b-form-radio v-model="selectedstate" name="some-radios-" value="activa">activa</b-form-radio>
+    							</div>
+						  		<div class="col-xs-5">
+    								<b-form-radio v-model="selectedstate" name="some-radios-" value="inactiva">inactiva</b-form-radio>
+    							</div>
 							</div>
 
 							<div class="rows">
@@ -50,9 +56,11 @@
 		data(){
 			return{
 				budgetId: this.$route.params.budgetId,
+				selectedstate: '',
 				form: {
+
 					nombre: '',
-					tipo: ''
+					estado: ''
 				}
 			}
 		},
@@ -64,10 +72,8 @@
 				axios.put(path, this.form).then((response) => {
 					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre
-					this.form.tipo = response.data.tipo
 					this.form.total_planeado = response.data.total_planeado
 					this.form.total_actual = response.data.total_actual
-					this.form.tipo = response.data.tipo
 					this.form.estado = response.data.estado
 					swal("Presupuesto actualizado exitosamente","","success")
 				})

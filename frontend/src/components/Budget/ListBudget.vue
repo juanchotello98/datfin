@@ -30,9 +30,11 @@
 			return {
 				fields: [
 				{ key: 'id', label: 'ID'},
+				{ key: 'mes', label: 'Fecha'},
 				{ key: 'nombre', label:'Nombre' },
 				{ key: 'total_planeado', label: 'Planeado'},
 				{ key: 'total_actual', label:'Actual' },
+				{ key: 'estado', label: 'Estado'},
 				{ key: 'action', label: ''}
 				],
 				budgets: []
