@@ -1,72 +1,81 @@
 <template lang="html">
-	<div class="container">
+	<div>
+		<div>
+	    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
+	    	<template v-slot:default="{ hide }">
+	        	<div class="p-3">
+	          		<h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
+	          		<nav class="mb-3">
+	            		<b-nav vertical>
+	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
+	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
+	            		</b-nav>
+	          		</nav>
+	        	</div>
+	      	</template>
+	    </b-sidebar>
+	  	</div>
+		<div class="container">
+			<div class="row">
+				<div class="col text-left">
+					<h2>Crear Presupuesto</h2>
+				</div>	
+			</div>
 
-		<div class="row">
-			<div class="col text-left">
-				<h2>Crear Presupuesto</h2>
-			</div>	
-		</div>
+			<div class="row">
+				<div class="col">
+					<div class="card">
+						<div class="card-body">
+							<form @submit="onSubmit">
 
-		<div class="row">
-			<div class="col">
-				<div class="card">
-					<div class="card-body">
-						<form @submit="onSubmit">
-
-							<div class="form-group row">
-								<label for="mes" class="col-sm-2 col-form-label">Fecha</label>
-								<div class="col-sm-6">
-									<input type="date" name="mes" class="form-control" v-model.trin="form.mes">
+								<div class="form-group row">
+									<label for="mes" class="col-sm-2 col-form-label">Fecha</label>
+									<div class="col-sm-6">
+										<input type="date" name="mes" class="form-control" v-model.trin="form.mes">
+									</div>
 								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
-								<div class="col-sm-6">
-									<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
+								
+								<div class="form-group row">
+									<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+									<div class="col-sm-6">
+										<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
+									</div>
 								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="total_planeado" class="col-sm-2 col-form-label">Total Planeado</label>
-								<div class="col-sm-6">
-									<input type="number" name="total_planeado" class="form-control" v-model.trin="form.total_planeado">
+								
+								<div class="form-group row">
+									<label for="total_planeado" class="col-sm-2 col-form-label">Total Planeado</label>
+									<div class="col-sm-6">
+										<input type="number" name="total_planeado" class="form-control" v-model.trin="form.total_planeado">
+									</div>
 								</div>
-							</div>
 
-							<div class="form-group row">
-								<label for="total_actual" class="col-sm-2 col-form-label">Total Actual</label>
-								<div class="col-sm-6">
-									<input type="number" name="total_actual" class="form-control" v-model.trin="form.total_actual">
+								<div class="form-group row">
+									<label for="total_actual" class="col-sm-2 col-form-label">Total Actual</label>
+									<div class="col-sm-6">
+										<input type="number" name="total_actual" class="form-control" v-model.trin="form.total_actual">
+									</div>
 								</div>
-							</div>
 
-							<div class="form-group row">
-								<label for="estado" class="col-sm-2 col-form-label">Estado</label>
-								<div class="col-sm-6">
-									<input type="text" disabled="true" name="estado" class="form-control" v-model.trin="form.estado=selectedstate">
+								<div class="form-group row">
+									<label for="estado" class="col-sm-2 col-form-label">Estado</label>
+							  		<div class="col-sm-6">
+	    								<b-form-select v-model="form.estado" :options="estados"></b-form-select>
+	    							</div>
 								</div>
-						  		<div class="col-sm-1">
-    								<b-form-radio v-model="selectedstate" name="some-radios-" value="activa">activa</b-form-radio>
-    							</div>
-						  		<div class="col-xs-5">
-    								<b-form-radio v-model="selectedstate" name="some-radios-" value="inactiva">inactiva</b-form-radio>
-    							</div>
-							</div>
 
-							<div class="rows">
-								<div class="col text-left">
-									<b-button type="submit" variant="primary">Crear</b-button>
-									<b-button type="submit" class="btn-large-space" :to="{ name: 'ListBudget' }">Cancelar</b-button>
+								<div class="rows">
+									<div class="col text-left">
+										<b-button type="submit" variant="primary">Crear</b-button>
+										<b-button type="submit" class="btn-large-space" :to="{ name: 'ListBudget' }">Cancelar</b-button>
+									</div>
 								</div>
-							</div>
 
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </template>
 
@@ -76,7 +85,10 @@
 	export default {
 		data(){
 			return{
-				selectedstate: '',
+				estados:[
+				{ value: 'activa', text:'activa' },
+				{ value: 'inactiva', text:'inactiva' }
+				],
 				form: {
 					mes: '',
 					nombre: '',
@@ -112,5 +124,14 @@
 </script>
 
 <style lang="css" scoped>
-	
+	.container{
+		margin-left: 270px;
+	}
+
+	.card{
+		width: 900px;
+	}
+	.btn{
+		text-align: left;
+	}
 </style>
