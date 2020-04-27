@@ -9,6 +9,7 @@
 	            		<b-nav vertical>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
+                      		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
 	            		</b-nav>
 	          		</nav>
 	        	</div>
@@ -19,7 +20,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Crear Categoria</h2>
+					<h2>Crear Categoria {{ set }} </h2>
 				</div>	
 			</div>
 
@@ -28,7 +29,6 @@
 					<div class="card">
 						<div class="card-body">
 							<form @submit="onSubmit">
-								
 								<div class="form-group row">
 									<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 									<div class="col-sm-6">
@@ -46,14 +46,14 @@
 								<div class="form-group row">
 									<label for="actual" class="col-sm-2 col-form-label">Actual</label>
 									<div class="col-sm-6">
-										<input type="number" name="actual" class="form-control" v-model.trin="form.actual">
+										<input type="number" disabled="true"  name="actual" class="form-control" v-model.trin="form.actual">
 									</div>
 								</div>
 
 								<div class="form-group row">
 									<label for="diferencia" class="col-sm-2 col-form-label">Diferencia</label>
 									<div class="col-sm-6">
-										<input type="text" disabled="true" name="diferencia" class="form-control" v-model.trin="form.diferencia=form.planeado-form.actual">
+										<input type="text" disabled="true" name="diferencia" class="form-control" v-model.trin="form.diferencia=subtraction">
 									</div>
 								</div>
 
@@ -87,21 +87,47 @@
 	export default {
 		data(){
 			return{
+				form_put: {
+					put_mes:'',
+					put_nombre:'',
+					put_total_planeado: 0,
+					put_total_actual: 0,
+					put_estado:''
+				},
 				budgetId: this.$route.params.budgetId,
 				form: {
 					id: '',
 					nombre: '',
-					planeado: '',
-					actual:'',
-					diferencia:'',
+					planeado: 0,
+					actual: 0,
+					diferencia: 0,
 					presupuesto: ''
-				}
+				},
+				categories: [], 
+				presupuesto:[]
 			}
 		},
+		computed:{
+			subtraction: function(){
+				var subtraction = 0;
+				subtraction = this.form.planeado - this.form.actual
+				return subtraction
+			},
 
+			set: function(){
+				this.form_put.put_total_planeado = 0;
+				for(var i=0; i < this.categories.length; i++){
+					this.form_put.put_total_planeado = this.form_put.put_total_planeado + this.categories[i].planeado
+				}
+				this.form_put.put_total_planeado = parseInt(this.form_put.put_total_planeado) + parseInt(this.form.planeado)
+				this.form_put.put_mes = this.presupuesto.mes
+				this.form_put.put_nombre = this.presupuesto.nombre
+				this.form_put.put_total_actual = this.presupuesto.total_actual
+				this.form_put.put_estado = this.presupuesto.estado
+			}
+		},
 		methods: {
 			onSubmit(evt){
-				budgetId: this.$route.params.budgetId,
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/categories/'
 				axios.post(path, this.form).then((response) => {
@@ -115,12 +141,50 @@
 				.catch((error) => {
 					swal("La categoria no ha sido creada","","error")
 				})
-
+				this.updateBudget()
 			},
+			getCategories(){
+				const path = 'http://localhost:8000/api/v1.0/categories/?presupuesto='+this.budgetId
+				console.log(path)
+				axios.get(path).then((response) => {
+					this.categories = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+			},
+			getBudget(){
+				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				axios.get(path).then((response) => {
+					this.presupuesto = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				}) 
+			},
+			updateBudget(){
+				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				let config = {
+						"mes": this.form_put.put_mes,
+        				"nombre": this.form_put.put_nombre,
+        				"total_planeado": this.form_put.put_total_planeado,
+        				"total_actual": this.form_put.put_total_actual,
+        				"estado": this.form_put.put_estado
+				};
+				axios.put(path, config).then((response) => {
+					console.log(response)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+			}
 
 		},
 		created(){
+			this.getCategories()
+			this.getBudget()
 		}
+
 	}	
 </script>
 

@@ -20,10 +20,9 @@
 			<div class="row">
 				<div class="col text-left">
 					<div>
-						<h2>Listado de Categorias </h2>
-						<b-button size="sm" :to="{name: 'NewCategory'}" variant="primary" >Crear Categorias</b-button>
-						<b-button size="sm" :to="{name: 'ListBudget'}" variant="secondary" >Volver</b-button>
-						<b-button size="sm" variant="secondary" v-on:click="set" >Actualizar</b-button>
+						<h2>Listado de Transacciones</h2>
+						<b-button size="sm" :to="{name: 'NewEntry'}" variant="primary" >Crear Ingreso</b-button>
+						<b-button size="sm" :to="{name: 'NewEgress'}" variant="primary" >Crear Egreso</b-button>
 					</div>
 					<br>
 				</div>
@@ -35,7 +34,7 @@
       					:per-page="perPage"
       					aria-controls="my-table"
     				></b-pagination>
-					<b-table class="my-table" small id="my-table" striped hover :items="categories" :fields="fields"  :per-page="perPage" :current-page="currentPage" default>
+					<b-table class="my-table" small id="my-table" striped hover :items="transactions" :fields="fields"  :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditCategory', params: { categoryId: data.item.id } }">Editar</b-button>
 						</template>
@@ -58,83 +57,41 @@
 	export default {
 		data(){
 			return {
-				budgetId: this.$route.params.budgetId,
 				fields: [
 				{ key: 'id', label: 'ID'},
-				{ key: 'nombre', label:'Nombre' },
-				{ key: 'planeado', label: 'Planeado'},
-				{ key: 'actual', label:'Actual' },
-				{ key: 'diferencia', label:'Diferencia' },
-				{ key: 'presupuesto', label:'Presupuesto' },
-				{ key: 'action', label: ''}
+				{ key: 'fecha', label:'Fecha' },
+				{ key: 'descripcion', label: 'Descripcion'},
+				{ key: 'valor', label:'Valor' },
+				{ key: 'tipo', label:'Tipo' },
+				{ key: 'cuenta', label:'Cuenta' },
+				{ key: 'categoria', label: 'Categoria'}
 				],
-				categories: [],
-				presupuesto: [],
+				transactions: [],
 				perPage: 5,
         		currentPage: 1,
-        		new_pnombre:'',
-        		new_mes:'',
-        		new_total_planeado:0,
-        		new_total_actual:0,
-        		new_pestado:''
-
 			}
 		},
     	computed: {
       		rows() {
-        		return this.categories.length
-      		},
+        		return this.transactions.length
+      		}
     	},
 		methods: {
-			getCategories(){
-				const path = 'http://localhost:8000/api/v1.0/categories/?presupuesto='+this.budgetId
+			getTransactions(){
+
+				const path = 'http://localhost:8000/api/v1.0/transactions/'
 				console.log(path)
 				axios.get(path).then((response) => {
-					this.categories = response.data
+					this.transactions = response.data
 				})
 				.catch((error) => {
 					console.log(error)
 				})
-			},
-			getBudget(){
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
-				axios.get(path).then((response) => {
-					this.presupuesto = response.data
-				})
-				.catch((error) => {
-					console.log(error)
-				}) 
-			},
-			set: function(event){
-				this.new_total_actual = 0;
-				for(var i=0; i < this.categories.length; i++){
-					this.new_total_actual = this.new_total_actual + this.categories[i].actual
-				}
-				this.new_total_planeado = this.presupuesto.total_planeado
-				this.new_mes = this.presupuesto.mes
-				this.new_pnombre = this.presupuesto.nombre
-				this.new_pestado = this.presupuesto.estado
-
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
-				let config = {
-						"mes" : this.new_mes,
-						"nombre" : this.new_pnombre,
-        				"total_planeado" : this.new_total_planeado,
-        				"total_actual"  : this.new_total_actual,
-        				"estado" : this.new_pestado
-				};
-				axios.put(path, config).then((response) => {
-					console.log(response)
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-			},
+			}
 		},
 
 		created(){
-			this.getCategories()
-			this.getBudget()
+			this.getTransactions()
 		}
 	}
 </script>

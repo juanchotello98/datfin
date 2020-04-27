@@ -9,6 +9,7 @@
 	            		<b-nav vertical>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
+                      		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
 	            		</b-nav>
 	          		</nav>
 	        	</div>
@@ -45,14 +46,14 @@
 								<div class="form-group row">
 									<label for="total_planeado" class="col-sm-2 col-form-label">Total Planeado</label>
 									<div class="col-sm-6">
-										<input type="number" name="total_planeado" class="form-control" v-model.trin="form.total_planeado">
+										<input type="number" disabled="true" name="total_planeado" class="form-control" v-model.trin="form.total_planeado=initial">
 									</div>
 								</div>
 
 								<div class="form-group row">
 									<label for="total_actual" class="col-sm-2 col-form-label">Total Actual</label>
 									<div class="col-sm-6">
-										<input type="number" name="total_actual" class="form-control" v-model.trin="form.total_actual">
+										<input type="number" disabled="true" name="total_actual" class="form-control" v-model.trin="form.total_actual=initial">
 									</div>
 								</div>
 
@@ -98,7 +99,12 @@
 				}
 			}
 		},
-
+		computed:{
+			initial: function(){
+				var initial = 0;
+				return initial
+			}
+		},
 		methods: {
 			onSubmit(evt){
 				evt.preventDefault()
