@@ -10,4 +10,3 @@ class Transaction(models.Model):
 	cuenta = models.ForeignKey(Account, on_delete= models.CASCADE)
 	categoria = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=False)
 	tipo = models.CharField(max_length=20)
-	saldo_actual_cuenta = models.IntegerField()

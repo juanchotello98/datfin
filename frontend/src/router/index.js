@@ -10,6 +10,9 @@ import NewBudget from '@/components/Budget/NewBudget'
 import ListCategory from '@/components/Category/ListCategory'
 import NewCategory from '@/components/Category/NewCategory'
 import EditCategory from '@/components/Category/EditCategory'
+import ListTransaction from '@/components/Transaction/ListTransaction'
+import NewEntry from '@/components/Transaction/NewEntry'
+import NewEgress from '@/components/Transaction/NewEgress'
 Vue.use(Router)
 
 export default new Router({
@@ -63,6 +66,21 @@ export default new Router({
       path: '/categories/:budgetId/:categoryId/edit',
       name: 'EditCategory',
       component: EditCategory
+    },
+    {
+      path: '/transactions',
+      name: 'ListTransaction',
+      component: ListTransaction
+    },
+    {
+      path: '/transactions/entry',
+      name: 'NewEntry',
+      component: NewEntry
+    },
+    {
+      path: '/transactions/egress',
+      name: 'NewEgress',
+      component: NewEgress
     },
   ],
   mode: 'history'

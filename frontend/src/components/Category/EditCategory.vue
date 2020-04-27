@@ -9,6 +9,7 @@
 	            		<b-nav vertical>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
+                      		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
 	            		</b-nav>
 	          		</nav>
 	        	</div>
@@ -18,7 +19,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Editar Categoria</h2>
+					<h2>Editar Categoria {{ set }} </h2>					
 				</div>	
 			</div>
 
@@ -78,15 +79,45 @@
 	export default {
 		data(){
 			return{
+				form_put: {
+					put_mes:'',
+					put_nombre:'',
+					put_total_planeado: 0,
+					put_total_actual: 0,
+					put_estado:'',
+					put_diferencia: 0
+				},
 				budgetId: this.$route.params.budgetId,
 				categoryId: this.$route.params.categoryId,
 				form: {
 					nombre: '',
 					planeado: ''
-				}
+				},
+				categories: [], 
+				presupuesto:[], 
+				categoria:[]
 			}
 		},
-
+		computed:{
+			set: function(){
+				this.form_put.put_total_planeado = 0;
+				for(var i=0; i < this.categories.length; i++){
+					this.form_put.put_total_planeado = this.form_put.put_total_planeado + this.categories[i].planeado
+				}
+				this.form_put.put_diferencia = this.categoria.planeado - this.form.planeado
+				if (this.form.planeado < this.categoria.planeado  ){
+					this.form_put.put_total_planeado = this.form_put.put_total_planeado  - this.form_put.put_diferencia 
+				}else if(this.form.planeado === this.categoria.planeado ){
+					this.form_put.put_total_planeado = this.form_put.put_total_planeado
+				}else if(this.form.planeado > this.categoria.planeado){
+					this.form_put.put_total_planeado = this.form_put.put_total_planeado + this.form_put.put_diferencia*-1
+				}
+				this.form_put.put_mes = this.presupuesto.mes
+				this.form_put.put_nombre = this.presupuesto.nombre
+				this.form_put.put_total_actual = this.presupuesto.total_actual
+				this.form_put.put_estado = this.presupuesto.estado
+			}
+		},
 		methods: {
 			onSubmit(evt){
 				evt.preventDefault()
@@ -102,12 +133,13 @@
 				.catch((error) => {
 					console.log(error)
 				})
+				this.updateBudget()
 
 			},
-
 			getCategory(){
 				const path = 'http://localhost:8000/api/v1.0/categories/'+this.categoryId+'/'
 				axios.get(path).then((response) => {
+					this.categoria = response.data
 					this.form.nombre = response.data.nombre
 					this.form.planeado = response.data.planeado
 					this.form.actual = response.data.actual
@@ -117,10 +149,47 @@
 				.catch((error) => {
 					console.log(error)
 				}) 
+			},
+			getCategories(){
+				const path = 'http://localhost:8000/api/v1.0/categories/?presupuesto='+this.budgetId
+				console.log(path)
+				axios.get(path).then((response) => {
+					this.categories = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+			},
+			getBudget(){
+				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				axios.get(path).then((response) => {
+					this.presupuesto = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				}) 
+			},
+			updateBudget(){
+				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				let config = {
+						"mes": this.form_put.put_mes,
+        				"nombre": this.form_put.put_nombre,
+        				"total_planeado": this.form_put.put_total_planeado,
+        				"total_actual": this.form_put.put_total_actual,
+        				"estado": this.form_put.put_estado
+				};
+				axios.put(path, config).then((response) => {
+					console.log(response)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
 			}
 		},
 		created(){
 			this.getCategory()
+			this.getCategories()
+			this.getBudget()
 		}
 	}	
 </script>

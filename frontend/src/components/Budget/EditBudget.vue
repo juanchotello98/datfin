@@ -9,6 +9,7 @@
 	            		<b-nav vertical>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
+                      		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
 	            		</b-nav>
 	          		</nav>
 	        	</div>
@@ -101,10 +102,8 @@
 				axios.get(path).then((response) => {
 					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre
-					this.form.tipo = response.data.tipo
 					this.form.total_planeado = response.data.total_planeado
 					this.form.total_actual = response.data.total_actual
-					this.form.tipo = response.data.tipo
 					this.form.estado = response.data.estado
 				})
 				.catch((error) => {
