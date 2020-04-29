@@ -23,21 +23,15 @@
 						<h2>Listado de Categorias </h2>
 						<b-button size="sm" :to="{name: 'NewCategory'}" variant="primary" >Crear Categorias</b-button>
 						<b-button size="sm" :to="{name: 'ListBudget'}" variant="secondary" >Volver</b-button>
-						<b-button size="sm" variant="secondary" v-on:click="set" >Actualizar</b-button>
+						<b-button size="sm" variant="success" v-on:click="set" >Actualizar</b-button>
 					</div>
 					<br>
 				</div>
 				<div class="col-md-12">
-					<b-pagination
-						align="center"
-      					v-model="currentPage"
-      					:total-rows="rows"
-      					:per-page="perPage"
-      					aria-controls="my-table"
-    				></b-pagination>
 					<b-table class="my-table" small id="my-table" striped hover :items="categories" :fields="fields"  :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditCategory', params: { categoryId: data.item.id } }">Editar</b-button>
+							<b-button size="sm" variant="danger" :to="{ name: 'DeleteCategory', params: { categoryId: data.item.id } }">Eliminar</b-button>
 						</template>
 					</b-table>
 					<b-pagination
@@ -125,6 +119,7 @@
 				};
 				axios.put(path, config).then((response) => {
 					console.log(response)
+					swal("Actualizadas exitosamente","","success")
 				})
 				.catch((error) => {
 					console.log(error)

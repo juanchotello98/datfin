@@ -49,13 +49,6 @@
 	    							</div>
 								</div>
 
-								<div class="form-group row">
-									<label for="estado" class="col-sm-2 col-form-label">Estado</label>
-							  		<div class="col-sm-6">
-	    								<b-form-select v-model="form.estado" :options="estados"></b-form-select>
-	    							</div>
-								</div>
-
 								<div class="rows">
 									<div class="col text-left">
 										<b-button type="submit" variant="primary">Crear</b-button>
@@ -78,18 +71,13 @@
 		data(){
 			return{
 				tipos:[
-				{ value: 'debito', text:'debito' },
-				{ value: 'credito', text:'credito' }
-				],
-				estados:[
-				{ value: 'activa', text:'activa' },
-				{ value: 'inactiva', text:'inactiva' }
+				{ value: 'Debito', text:'Debito' },
+				{ value: 'Credito', text:'Credito' }
 				],
 				form: {
 					nombre: '',
 					saldo: '',
-					tipo:'',
-					estado:''
+					tipo:''
 				}
 			}
 		},
@@ -102,9 +90,8 @@
 					this.form.nombre = response.data.nombre
 					this.form.saldo = response.data.saldo
 					this.form.tipo = response.data.tipo
-					this.form.estado = response.data.estado
 					
-					swal("Cuenta creado exitosamente","","success")
+					swal("Cuenta creada exitosamente","","success")
 				})
 				.catch((error) => {
 					swal("La cuenta no ha sido creada","","error")

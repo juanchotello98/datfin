@@ -57,13 +57,6 @@
 									</div>
 								</div>
 
-								<div class="form-group row">
-									<label for="estado" class="col-sm-2 col-form-label">Estado</label>
-							  		<div class="col-sm-6">
-	    								<b-form-select v-model="form.estado" :options="estados"></b-form-select>
-	    							</div>
-								</div>
-
 								<div class="rows">
 									<div class="col text-left">
 										<b-button type="submit" variant="primary">Crear</b-button>
@@ -86,16 +79,11 @@
 	export default {
 		data(){
 			return{
-				estados:[
-				{ value: 'activa', text:'activa' },
-				{ value: 'inactiva', text:'inactiva' }
-				],
 				form: {
 					mes: '',
 					nombre: '',
 					total_planeado:'',
-					total_actual:'',
-					estado:''
+					total_actual:''
 				}
 			}
 		},
@@ -114,7 +102,6 @@
 					this.form.nombre = response.data.nombre
 					this.form.total_planeado = response.data.total_planeado
 					this.form.total_actual = response.data.total_actual
-					this.form.estado = response.data.estado
 					swal("Presupuesto creado exitosamente","","success")
 				})
 				.catch((error) => {

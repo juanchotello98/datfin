@@ -20,7 +20,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Editar Presupuestos</h2>
+					<h2>Editar Presupuesto</h2>
 				</div>	
 			</div>
 
@@ -35,13 +35,6 @@
 									<div class="col-sm-6">
 										<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
 									</div>
-								</div>
-
-								<div class="form-group row">
-									<label for="estado" class="col-sm-2 col-form-label">Estado</label>
-							  		<div class="col-sm-6">
-	    								<b-form-select v-model="form.estado" :options="estados"></b-form-select>
-	    							</div>
 								</div>
 
 								<div class="rows">
@@ -67,14 +60,9 @@
 		data(){
 			return{
 				budgetId: this.$route.params.budgetId,
-				estados:[
-				{ value: 'activa', text:'activa' },
-				{ value: 'inactiva', text:'inactiva' }
-				],
 				form: {
 
-					nombre: '',
-					estado: ''
+					nombre: ''
 				}
 			}
 		},
@@ -88,7 +76,6 @@
 					this.form.nombre = response.data.nombre
 					this.form.total_planeado = response.data.total_planeado
 					this.form.total_actual = response.data.total_actual
-					this.form.estado = response.data.estado
 					swal("Presupuesto actualizado exitosamente","","success")
 				})
 				.catch((error) => {
@@ -104,7 +91,6 @@
 					this.form.nombre = response.data.nombre
 					this.form.total_planeado = response.data.total_planeado
 					this.form.total_actual = response.data.total_actual
-					this.form.estado = response.data.estado
 				})
 				.catch((error) => {
 					console.log(error)

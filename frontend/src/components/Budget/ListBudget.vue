@@ -28,16 +28,10 @@
 					<br>
 				</div>
 				<div class="col-md-12">
-					<b-pagination
-						align="center"
-      					v-model="currentPage"
-      					:total-rows="rows"
-      					:per-page="perPage"
-      					aria-controls="my-table"
-    				></b-pagination>
 					<b-table class="my-table" small id="my-table" striped hover :items="budgets" :fields="fields" :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditBudget', params: { budgetId: data.item.id } }">Editar</b-button>
+							<b-button size="sm" variant="danger" :to="{ name: 'DeleteBudget', params: { budgetId: data.item.id } }">Eliminar</b-button>							
 							<b-button size="sm" variant="secondary" :to="{ name: 'ListCategory', params: { budgetId: data.item.id } }">Ver Categorias</b-button>
 							<b-button size="sm" variant="success" :to="{ name: 'NewCategory', params: { budgetId: data.item.id } }">Crear Categorias</b-button>
 						</template>
@@ -66,7 +60,6 @@
 				{ key: 'nombre', label:'Nombre' },
 				{ key: 'total_planeado', label: 'Planeado'},
 				{ key: 'total_actual', label:'Actual' },
-				{ key: 'estado', label: 'Estado'},
 				{ key: 'action', label: ''}
 				],
 				budgets: [],

@@ -9,17 +9,18 @@
 	            		<b-nav vertical>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
-                      		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>              			
+                      		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
 	            		</b-nav>
 	          		</nav>
 	        	</div>
 	      	</template>
 	    </b-sidebar>
 	  	</div>
+
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Editar Cuenta</h2>
+					<h2>Eliminar Presupuesto</h2>
 				</div>	
 			</div>
 
@@ -30,23 +31,16 @@
 							<form @submit="onSubmit">
 								
 								<div class="form-group row">
-									<label for="saldo" class="col-sm-2 col-form-label">Saldo</label>
-									<div class="col-sm-6">
-										<input type="number" disabled="true" name="saldo" class="form-control" v-model.trin="form.saldo">
-									</div>
-								</div>
-
-								<div class="form-group row">
 									<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 									<div class="col-sm-6">
-										<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
+										<input type="text" disabled="true" name="nombre" class="form-control" v-model.trin="form.nombre">
 									</div>
 								</div>
 
 								<div class="rows">
 									<div class="col text-left">
-										<b-button type="submit" variant="primary">Editar</b-button>
-										<b-button type="submit" class="btn-large-space" :to="{ name: 'ListAccount' }">Cancelar</b-button>
+										<b-button type="submit" variant="danger">Eliminar</b-button>
+										<b-button type="submit" class="btn-large-space" :to="{ name: 'ListBudget' }">Cancelar</b-button>
 									</div>
 								</div>
 
@@ -65,10 +59,10 @@
 	export default {
 		data(){
 			return{
-				accountId: this.$route.params.accountId,
+				budgetId: this.$route.params.budgetId,
 				form: {
-					nombre: '',
-					saldo:''
+
+					nombre: ''
 				}
 			}
 		},
@@ -76,12 +70,13 @@
 		methods: {
 			onSubmit(evt){
 				evt.preventDefault()
-				const path = 'http://localhost:8000/api/v1.0/accounts/'+this.accountId+'/'
-				axios.put(path, this.form).then((response) => {
+				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				axios.delete(path, this.form).then((response) => {
+					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre
-					this.form.saldo = response.data.saldo
-					this.form.tipo = response.data.tipo
-					swal("Cuenta actualizada exitosamente","","success")
+					this.form.total_planeado = response.data.total_planeado
+					this.form.total_actual = response.data.total_actual
+					swal("Presupuesto eliminado exitosamente","","success")
 				})
 				.catch((error) => {
 					console.log(error)
@@ -89,12 +84,13 @@
 
 			},
 
-			getAccount(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/'+this.accountId+'/'
+			getBudget(){
+				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
 				axios.get(path).then((response) => {
+					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre
-					this.form.saldo = response.data.saldo
-					this.form.tipo = response.data.tipo
+					this.form.total_planeado = response.data.total_planeado
+					this.form.total_actual = response.data.total_actual
 				})
 				.catch((error) => {
 					console.log(error)
@@ -102,7 +98,7 @@
 			}
 		},
 		created(){
-			this.getAccount()
+			this.getBudget()
 		}
 	}	
 </script>
@@ -111,6 +107,7 @@
 	.container{
 		margin-left: 270px;
 	}
+
 	.card{
 		width: 900px;
 	}

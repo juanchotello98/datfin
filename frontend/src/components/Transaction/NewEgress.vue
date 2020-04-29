@@ -101,7 +101,7 @@
 					fecha: '',
 					descripcion: '',
 					valor:0,
-					tipo:'egreso',
+					tipo:'Egreso',
 					cuenta:'',
 					categoria:''
 				},
@@ -111,7 +111,6 @@
 				new_saldo: 0,
 				mew_nombre:'',
 				new_tipo:'',
-				new_estado:'',
 
 				new_cnombre:'',
 				new_planeado:0,
@@ -127,7 +126,6 @@
 						this.new_saldo = parseInt(this.cuentas[i].saldo) - parseInt(this.form.valor)
 						this.new_nombre =  this.cuentas[i].nombre
 						this.new_tipo =  this.cuentas[i].tipo
-						this.new_estado =  this.cuentas[i].estado
 					}
 				}
 			},
@@ -188,8 +186,7 @@
 				let config = {
 						"nombre": this.new_nombre,
         				"saldo": this.new_saldo,
-        				"tipo": this.new_tipo,
-        				"estado": this.new_estado
+        				"tipo": this.new_tipo
 				};
 				axios.put(path, config).then((response) => {
 					console.log(response)
