@@ -27,13 +27,6 @@
 					<br>
 				</div>
 				<div class="col-md-12">
-					<b-pagination
-						align="center"
-      					v-model="currentPage"
-      					:total-rows="rows"
-      					:per-page="perPage"
-      					aria-controls="my-table"
-    				></b-pagination>
 					<b-table class="my-table" small id="my-table" striped hover :items="transactions" :fields="fields"  :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditCategory', params: { categoryId: data.item.id } }">Editar</b-button>

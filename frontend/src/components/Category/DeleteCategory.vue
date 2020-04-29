@@ -19,7 +19,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Editar Categoria {{ set }} </h2>					
+					<h2>Eliminar Categoria {{ set }}</h2>					
 				</div>	
 			</div>
 
@@ -32,14 +32,14 @@
 								<div class="form-group row">
 									<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 									<div class="col-sm-6">
-										<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
+										<input type="text" disabled="true" name="nombre" class="form-control" v-model.trin="form.nombre">
 									</div>
 								</div>
 
 								<div class="form-group row">
 									<label for="planeado" class="col-sm-2 col-form-label">Planeado</label>
 									<div class="col-sm-6">
-										<input type="number"  name="planeado" class="form-control" v-model.trin="form.planeado">
+										<input type="number" disabled="true"  name="planeado" class="form-control" v-model.trin="form.planeado">
 									</div>
 								</div>
 
@@ -47,19 +47,19 @@
 									<label for="actual" class="col-sm-2 col-form-label">Actual</label>
 									<div class="col-sm-6">
 										<input type="number" disabled="true" name="actual" class="form-control" v-model.trin="form.actual">
-									</div>
+									</div>	
 								</div>
 
 								<div class="form-group row">
 									<label for="diferencia" class="col-sm-2 col-form-label">Diferencia</label>
 									<div class="col-sm-6">
-										<input type="text" disabled="true" name="diferencia" class="form-control" v-model.trin="form.diferencia=form.planeado-form.actual">
+										<input type="text" disabled="true" name="diferencia" class="form-control" v-model.trin="form.diferencia=subtraction">
 									</div>
 								</div>
 
 								<div class="rows">
 									<div class="col text-left">
-										<b-button type="submit" variant="primary">Editar</b-button>
+										<b-button type="submit" variant="danger">Eliminar</b-button>
 										<b-button type="submit" class="btn-large-space" :to="{ name: 'ListCategory', params: { budgetd: budgetId   } }">Cancelar</b-button>
 									</div>
 								</div>
@@ -83,8 +83,7 @@
 					put_mes:'',
 					put_nombre:'',
 					put_total_planeado: 0,
-					put_total_actual: 0,
-					put_diferencia: 0
+					put_total_actual: 0
 				},
 				budgetId: this.$route.params.budgetId,
 				categoryId: this.$route.params.categoryId,
@@ -98,19 +97,17 @@
 			}
 		},
 		computed:{
+			subtraction: function(){
+				var subtraction = 0;
+				subtraction = this.form.planeado - this.form.actual
+				return subtraction
+			},
 			set: function(){
 				this.form_put.put_total_planeado = 0;
 				for(var i=0; i < this.categories.length; i++){
 					this.form_put.put_total_planeado = this.form_put.put_total_planeado + this.categories[i].planeado
 				}
-				this.form_put.put_diferencia = this.categoria.planeado - this.form.planeado
-				if (this.form.planeado < this.categoria.planeado  ){
-					this.form_put.put_total_planeado = this.form_put.put_total_planeado  - this.form_put.put_diferencia 
-				}else if(this.form.planeado === this.categoria.planeado ){
-					this.form_put.put_total_planeado = this.form_put.put_total_planeado
-				}else if(this.form.planeado > this.categoria.planeado){
-					this.form_put.put_total_planeado = this.form_put.put_total_planeado + this.form_put.put_diferencia*-1
-				}
+				this.form_put.put_total_planeado = this.form_put.put_total_planeado  - this.form.planeado
 				this.form_put.put_mes = this.presupuesto.mes
 				this.form_put.put_nombre = this.presupuesto.nombre
 				this.form_put.put_total_actual = this.presupuesto.total_actual
@@ -120,13 +117,13 @@
 			onSubmit(evt){
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/categories/'+this.categoryId+'/'
-				axios.put(path, this.form).then((response) => {
+				axios.delete(path, this.form).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.planeado = response.data.planeado
 					this.form.actual = response.data.actual
 					this.form.diferencia = response.data.diferencia
 					this.form.presupuesto = response.data.presupuesto
-					swal("Categoria actualizada exitosamente","","success")
+					swal("Categoria eliminada exitosamente","","success")
 				})
 				.catch((error) => {
 					console.log(error)

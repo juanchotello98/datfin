@@ -19,7 +19,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Editar Cuenta</h2>
+					<h2>Eliminar Cuenta</h2>
 				</div>	
 			</div>
 
@@ -39,13 +39,13 @@
 								<div class="form-group row">
 									<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 									<div class="col-sm-6">
-										<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
+										<input type="text"  disabled="true" name="nombre" class="form-control" v-model.trin="form.nombre">
 									</div>
 								</div>
 
 								<div class="rows">
 									<div class="col text-left">
-										<b-button type="submit" variant="primary">Editar</b-button>
+										<b-button type="submit" variant="danger">Eliminar</b-button>
 										<b-button type="submit" class="btn-large-space" :to="{ name: 'ListAccount' }">Cancelar</b-button>
 									</div>
 								</div>
@@ -77,11 +77,11 @@
 			onSubmit(evt){
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/accounts/'+this.accountId+'/'
-				axios.put(path, this.form).then((response) => {
+				axios.delete(path, this.form).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.saldo = response.data.saldo
 					this.form.tipo = response.data.tipo
-					swal("Cuenta actualizada exitosamente","","success")
+					swal("Cuenta eliminada exitosamente","","success")
 				})
 				.catch((error) => {
 					console.log(error)

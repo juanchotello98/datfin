@@ -27,16 +27,10 @@
 					<br>
 				</div>
 				<div class="col-md-12">
-					<b-pagination
-						align="center"
-      					v-model="currentPage"
-      					:total-rows="rows"
-      					:per-page="perPage"
-      					aria-controls="my-table"
-    				></b-pagination>
 					<b-table class="my-table" small striped hover :items="accounts" :fields="fields" :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditAccount', params: { accountId: data.item.id } }">Editar</b-button>
+							<b-button size="sm" variant="danger" :to="{ name: 'DeleteAccount', params: { accountId: data.item.id } }">Eliminar</b-button>
 						</template>
 					</b-table>
 					<b-pagination
@@ -62,7 +56,6 @@
 				{ key: 'nombre', label:'Nombre' },
 				{ key: 'saldo', label: 'Saldo'},
 				{ key: 'tipo', label:'Tipo' },
-				{ key: 'estado', label:'Estado' },
 				{ key: 'action', label: ''}
 				],
 				accounts: [],

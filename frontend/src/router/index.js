@@ -4,12 +4,15 @@ import HelloWorld from '@/components/HelloWorld'
 import ListAccount from '@/components/Account/ListAccount'
 import EditAccount from '@/components/Account/EditAccount'
 import NewAccount from '@/components/Account/NewAccount'
+import DeleteAccount from '@/components/Account/DeleteAccount'
 import ListBudget from '@/components/Budget/ListBudget'
 import EditBudget from '@/components/Budget/EditBudget'
 import NewBudget from '@/components/Budget/NewBudget'
+import DeleteBudget from '@/components/Budget/DeleteBudget'
 import ListCategory from '@/components/Category/ListCategory'
 import NewCategory from '@/components/Category/NewCategory'
 import EditCategory from '@/components/Category/EditCategory'
+import DeleteCategory from '@/components/Category/DeleteCategory'
 import ListTransaction from '@/components/Transaction/ListTransaction'
 import NewEntry from '@/components/Transaction/NewEntry'
 import NewEgress from '@/components/Transaction/NewEgress'
@@ -38,6 +41,11 @@ export default new Router({
       component: EditAccount
     },
     {
+      path: '/accounts/:accountId/delete',
+      name: 'DeleteAccount',
+      component: DeleteAccount
+    },
+    {
       path: '/budgets',
       name: 'ListBudget',
       component: ListBudget
@@ -46,6 +54,11 @@ export default new Router({
       path: '/budgets/:budgetId/edit',
       name: 'EditBudget',
       component: EditBudget
+    },
+    {
+      path: '/budgets/:budgetId/delete',
+      name: 'DeleteBudget',
+      component: DeleteBudget
     },
     {
       path: '/budgets/new',
@@ -66,6 +79,11 @@ export default new Router({
       path: '/categories/:budgetId/:categoryId/edit',
       name: 'EditCategory',
       component: EditCategory
+    },
+    {
+      path: '/categories/:budgetId/:categoryId/delete',
+      name: 'DeleteCategory',
+      component: DeleteCategory
     },
     {
       path: '/transactions',

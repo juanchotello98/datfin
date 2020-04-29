@@ -6,7 +6,6 @@ class Budget(models.Model):
 	mes = models.DateField(editable=False)
 	total_planeado = models.IntegerField()
 	total_actual =models.IntegerField()
-	estado = models.CharField(max_length=20) # Activo o Inactivo
-
+	
 	def __str__(self):
 		return ("%s "%(self.nombre))
