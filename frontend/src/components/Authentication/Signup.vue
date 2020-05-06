@@ -13,45 +13,35 @@
           <div id="my-card" class="card">
             <div id="my-card-body" class="card-body">
               <form class="login form" @submit="onSubmit">
-                <div class="form-group row">
 
-                  <label for="username" class="col-sm-2 col-form-label">Usuario</label>
-                  <div class="col-sm-6">
-                    <input type="text" v-model="form.username" name="username" class="form-control">
-                  </div>
+                <div class="form-group row">
+                  <label id="my-label" for="username" class="col-sm-6 col-form-label"><b>Usuario</b></label>
+                  <input type="text" v-model="form.username" name="username" class="form-control">
                 </div>
 
                 <div class="form-group row">
-                  <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
-                  <div class="col-sm-6">
-                    <input type="password" name="password" class="form-control" v-model="form.password">
-                  </div>
+                  <label id="my-label" for="password" class="col-sm-6 col-form-label"><b>Contraseña</b></label>
+                  <input type="password" name="password" class="form-control" v-model="form.password">
                 </div>
 
                 <div class="form-group row">
-                  <label for="first_name" class="col-sm-2 col-form-label">Nombres</label>
-                  <div class="col-sm-6">
-                    <input type="text" name="first_name" class="form-control" v-model="form.first_name">
-                  </div>
+                  <label id="my-label" for="first_name" class="col-sm-6 col-form-label"><b>Nombres</b></label>
+                  <input type="text" name="first_name" class="form-control" v-model="form.first_name">
                 </div>
 
                 <div class="form-group row">
-                  <label for="last_name" class="col-sm-2 col-form-label">Apellidos</label>
-                  <div class="col-sm-6">
-                    <input type="text" name="last_name" class="form-control" v-model="form.last_name">
-                  </div>
+                  <label id="my-label" for="last_name" class="col-sm-6 col-form-label"><b>Apellidos</b></label>
+                  <input type="text" name="last_name" class="form-control" v-model="form.last_name">
                 </div>
 
                 <div class="form-group row">
-                  <label for="email" class="col-sm-2 col-form-label">Email</label>
-                  <div class="col-sm-6">
-                    <input type="text" name="email" class="form-control" v-model="form.email">
-                  </div>
+                  <label id="my-label" for="email" class="col-sm-6 col-form-label"><b>Email</b></label>
+                  <input type="text" name="email" class="form-control" v-model="form.email">
                 </div>
 
                 <div class="rows">
                   <div id="login" class="col text-left">
-                    <b-button  type="submit" variant="primary">Sign up</b-button>
+                    <b-button  type="submit" variant="success">Sign up</b-button>
                     <b-button variant="secondary" :to="{ name: 'Login' }">Log in</b-button>
                   </div>
                 </div>
@@ -100,20 +90,25 @@
 </script>
 <style lang="css">
     #my-card{
-    margin-right: 200px;
-    margin-left: 200px;
+    margin-right: 410px;
+    margin-left: 350px;
     }
 
-    #my-scard-body{
-    margin-left: 70px;
+    #my-card-body{
+    margin-left: 8px;
+    margin-right: 8px;
     }
 
     #login{
-      margin-left: 100px;
+      margin-left: 55px;
     }
 
     #title{
     margin-left: 350px;
     margin-top: 30px
+    }
+
+    #my-label{
+      text-align: left;
     }
 </style>

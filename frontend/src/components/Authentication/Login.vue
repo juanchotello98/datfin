@@ -14,22 +14,18 @@
             <div id="my-card-body" class="card-body">
               <form class="login form">
                 <div class="form-group row">
-                  <label for="username" class="col-sm-2 col-form-label">Usuario</label>
-                  <div class="col-sm-6">
-                    <input type="text" v-model="username" name="username" class="form-control">
-                  </div>
+                  <label id="my-label" for="username" class="col-sm-6 col-form-label"><b>Usuario</b></label>
+                  <input type="text" v-model="username" name="username" class="form-control">
                 </div>
 
                 <div class="form-group row">
-                  <label for="password" class="col-sm-2 col-form-label">Contrasea</label>
-                  <div class="col-sm-6">
-                    <input type="password" name="password" class="form-control" v-model="password">
-                  </div>
+                  <label id="my-label" for="password" class="col-sm-6 col-form-label"><b>Contraseña</b></label>
+                  <input type="password" name="password" class="form-control" v-model="password">
                 </div>
 
                 <div class="rows">
                   <div id="login" class="col text-left">
-                    <b-button @click.prevent="authenticate" type="submit" variant="primary">Log in</b-button>
+                    <b-button @click.prevent="authenticate" type="submit" variant="success">Log in</b-button>
                     <b-button variant="secondary" :to="{ name: 'Signup' }">Sign up</b-button>
                   </div>
                 </div>
@@ -105,20 +101,25 @@ export default {
 
 <style lang="css">
     #my-card{
-    margin-right: 200px;
-    margin-left: 200px;
+    margin-right: 410px;
+    margin-left: 350px;
     }
 
-    #my-scard-body{
-    margin-left: 70px;
+    #my-card-body{
+    margin-left: 8px;
+    margin-right: 8px;
     }
 
     #login{
-      margin-left: 100px;
+      margin-left: 55px;
     }
 
     #title{
     margin-left: 350px;
     margin-top: 30px
+    }
+
+    #my-label{
+      text-align: left;
     }
 </style>
