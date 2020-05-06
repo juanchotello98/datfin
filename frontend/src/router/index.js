@@ -16,6 +16,8 @@ import DeleteCategory from '@/components/Category/DeleteCategory'
 import ListTransaction from '@/components/Transaction/ListTransaction'
 import NewEntry from '@/components/Transaction/NewEntry'
 import NewEgress from '@/components/Transaction/NewEgress'
+import Login from '@/components/Authentication/Login'
+import Signup from '@/components/Authentication/Signup'
 Vue.use(Router)
 
 export default new Router({
@@ -24,6 +26,16 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
     },
     {
       path: '/accounts',

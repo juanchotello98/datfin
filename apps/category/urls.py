@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .viewsets import CategoryViewSet
+from apps.category.viewsets import CategoryViewSet
 
 router = routers.SimpleRouter()
 router.register('categories', CategoryViewSet)

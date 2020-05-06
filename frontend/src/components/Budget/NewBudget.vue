@@ -1,5 +1,20 @@
 <template lang="html">
 	<div>
+    	<div>
+      		<b-navbar class="my-navar" toggleable="lg" type="dark" variant="primary">
+        		<b-navbar-brand><b-icon icon="graph-up"></b-icon> DATFIN</b-navbar-brand>
+        		<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          			<b-navbar-nav class="ml-auto">
+            			<b-nav-item-dropdown right>
+              				<template v-slot:button-content>
+                				<em>¡Hola!&nbsp;{{firstName}}</em>
+              				</template>
+              			<b-dropdown-item v-on:click="signOut">Sign Out</b-dropdown-item>
+            			</b-nav-item-dropdown>
+          			</b-navbar-nav>
+        		</b-collapse>
+      		</b-navbar>
+    	</div>
 		<div>
 	    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
 	    	<template v-slot:default="{ hide }">
@@ -7,6 +22,7 @@
 	          		<h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
 	          		<nav class="mb-3">
 	            		<b-nav vertical>
+	            			<b-button class="btn" variant="primary" :to="{name: 'HelloWorld'}" block><b-icon icon="house-fill"></b-icon>&nbsp;&nbsp;Inicio</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
                       		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
@@ -19,7 +35,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Crear Presupuesto</h2>
+					<h2>Crear Presupuesto {{set}} </h2>
 				</div>	
 			</div>
 
@@ -79,11 +95,14 @@
 	export default {
 		data(){
 			return{
+				firstName : this.$store.state.authUser[0].first_name,
+				userId : this.$store.state.authUser[0].id,
 				form: {
 					mes: '',
 					nombre: '',
 					total_planeado:'',
-					total_actual:''
+					total_actual:'',
+					usuario:''
 				}
 			}
 		},
@@ -91,13 +110,20 @@
 			initial: function(){
 				var initial = 0;
 				return initial
+			},
+			set: function(){
+				this.form.usuario = this.userId
 			}
 		},
 		methods: {
+    		signOut(){
+    			this.$store.commit("removeToken")
+    			this.$router.push({name: 'Login'})
+    		},
 			onSubmit(evt){
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/budgets/'
-				axios.post(path, this.form).then((response) => {
+				axios.post(path, this.form,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre
 					this.form.total_planeado = response.data.total_planeado
@@ -119,6 +145,7 @@
 <style lang="css" scoped>
 	.container{
 		margin-left: 270px;
+		margin-top: 30px;
 	}
 
 	.card{
@@ -127,4 +154,7 @@
 	.btn{
 		text-align: left;
 	}
+  	.my-navar{
+    	margin-left: 250px;
+  	}
 </style>
