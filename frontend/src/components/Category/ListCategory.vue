@@ -1,5 +1,20 @@
 <template lang="html">
 	<div>
+    	<div>
+      		<b-navbar class="my-navar" toggleable="lg" type="dark" variant="primary">
+        		<b-navbar-brand><b-icon icon="graph-up"></b-icon> DATFIN</b-navbar-brand>
+        		<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          			<b-navbar-nav class="ml-auto">
+            			<b-nav-item-dropdown right>
+              				<template v-slot:button-content>
+                				<em>¡Hola!&nbsp;{{firstName}}</em>
+              				</template>
+              			<b-dropdown-item v-on:click="signOut">Sign Out</b-dropdown-item>
+            			</b-nav-item-dropdown>
+          			</b-navbar-nav>
+        		</b-collapse>
+      		</b-navbar>
+    	</div>
 		<div>
 	    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
 	    	<template v-slot:default="{ hide }">
@@ -7,6 +22,7 @@
 	          		<h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
 	          		<nav class="mb-3">
 	            		<b-nav vertical>
+	            			<b-button class="btn" variant="primary" :to="{name: 'HelloWorld'}" block><b-icon icon="house-fill"></b-icon>&nbsp;&nbsp;Inicio</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
                       		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
@@ -52,6 +68,8 @@
 	export default {
 		data(){
 			return {
+				userId : this.$store.state.authUser[0].id,
+				firstName : this.$store.state.authUser[0].first_name,
 				budgetId: this.$route.params.budgetId,
 				fields: [
 				{ key: 'id', label: 'ID'},
@@ -70,7 +88,7 @@
         		new_mes:'',
         		new_total_planeado:0,
         		new_total_actual:0,
-        		new_pestado:''
+        		new_pusuario:''
 
 			}
 		},
@@ -80,11 +98,15 @@
       		},
     	},
 		methods: {
+    		signOut(){
+    			this.$store.commit("removeToken")
+    			this.$router.push({name: 'Login'})
+    		},
 			getCategories(){
 				const path = 'http://localhost:8000/api/v1.0/categories/?presupuesto='+this.budgetId
 				console.log(path)
-				axios.get(path).then((response) => {
-					this.categories = response.data
+				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
+					this.categories = response.data.results
 				})
 				.catch((error) => {
 					console.log(error)
@@ -92,7 +114,7 @@
 			},
 			getBudget(){
 				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
-				axios.get(path).then((response) => {
+				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.presupuesto = response.data
 				})
 				.catch((error) => {
@@ -107,7 +129,7 @@
 				this.new_total_planeado = this.presupuesto.total_planeado
 				this.new_mes = this.presupuesto.mes
 				this.new_pnombre = this.presupuesto.nombre
-				this.new_pestado = this.presupuesto.estado
+				this.new_pusuario = this.presupuesto.usuario
 
 				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
 				let config = {
@@ -115,9 +137,9 @@
 						"nombre" : this.new_pnombre,
         				"total_planeado" : this.new_total_planeado,
         				"total_actual"  : this.new_total_actual,
-        				"estado" : this.new_pestado
+        				"usuario" : this.new_pusuario
 				};
-				axios.put(path, config).then((response) => {
+				axios.put(path, config,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					console.log(response)
 					swal("Actualizadas exitosamente","","success")
 				})
@@ -137,6 +159,7 @@
 <style lang="css" scoped>
 	.container{
 		margin-left: 270px;
+		margin-top: 30px;
 	}
 	.my-table{
 		width: 1050px;
@@ -144,4 +167,7 @@
 	.btn{
 		text-align: left;
 	}
+  	.my-navar{
+    	margin-left: 250px;
+  	}
 </style>

@@ -1,5 +1,20 @@
 <template lang="html">
 	<div>
+    	<div>
+      		<b-navbar class="my-navar" toggleable="lg" type="dark" variant="primary">
+        		<b-navbar-brand><b-icon icon="graph-up"></b-icon> DATFIN</b-navbar-brand>
+        		<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          			<b-navbar-nav class="ml-auto">
+            			<b-nav-item-dropdown right>
+              				<template v-slot:button-content>
+                				<em>¡Hola!&nbsp;{{firstName}}</em>
+              				</template>
+              			<b-dropdown-item v-on:click="signOut">Sign Out</b-dropdown-item>
+            			</b-nav-item-dropdown>
+          			</b-navbar-nav>
+        		</b-collapse>
+      		</b-navbar>
+    	</div>
 		<div>
 	    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
 	    	<template v-slot:default="{ hide }">
@@ -7,6 +22,7 @@
 	          		<h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
 	          		<nav class="mb-3">
 	            		<b-nav vertical>
+	            			<b-button class="btn" variant="primary" :to="{name: 'HelloWorld'}" block><b-icon icon="house-fill"></b-icon>&nbsp;&nbsp;Inicio</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
                       		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	              			
@@ -51,6 +67,8 @@
 	export default {
 		data(){
 			return {
+				userId : this.$store.state.authUser[0].id,
+				firstName : this.$store.state.authUser[0].first_name,
 				fields: [
 				{ key: 'id', label: 'ID'},
 				{ key: 'nombre', label:'Nombre' },
@@ -69,10 +87,14 @@
       		}
     	},
 		methods: {
+    		signOut(){
+    			this.$store.commit("removeToken")
+    			this.$router.push({name: 'Login'})
+    		},
 			getAccounts(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/'
-				axios.get(path).then((response) => {
-					this.accounts = response.data
+				const path = 'http://localhost:8000/api/v1.0/accounts/?usuario='+this.userId
+				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
+					this.accounts = response.data.results
 				})
 				.catch((error) => {
 					console.log(error)
@@ -89,6 +111,7 @@
 <style lang="css" scoped>
 	.container{
 		margin-left: 270px;
+		margin-top: 30px;
 	}
 	.my-table{
 		width: 1050px;
@@ -96,4 +119,7 @@
 	.btn{
 		text-align: left;
 	}
+  	.my-navar{
+    	margin-left: 250px;
+  	}
 </style>

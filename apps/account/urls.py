@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .viewsets import AccountViewSet
+from apps.account.viewsets import AccountViewSet
 
 router = routers.SimpleRouter()
 router.register('accounts', AccountViewSet)

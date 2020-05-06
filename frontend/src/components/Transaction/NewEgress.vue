@@ -1,5 +1,20 @@
 <template lang="html">
 	<div>
+    	<div>
+      		<b-navbar class="my-navar" toggleable="lg" type="dark" variant="primary">
+        		<b-navbar-brand><b-icon icon="graph-up"></b-icon> DATFIN</b-navbar-brand>
+        		<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          			<b-navbar-nav class="ml-auto">
+            			<b-nav-item-dropdown right>
+              				<template v-slot:button-content>
+                				<em>¡Hola!&nbsp;{{firstName}}</em>
+              				</template>
+              			<b-dropdown-item v-on:click="signOut">Sign Out</b-dropdown-item>
+            			</b-nav-item-dropdown>
+          			</b-navbar-nav>
+        		</b-collapse>
+      		</b-navbar>
+    	</div>
 		<div>
 	    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
 	    	<template v-slot:default="{ hide }">
@@ -7,6 +22,7 @@
 	          		<h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
 	          		<nav class="mb-3">
 	            		<b-nav vertical>
+	            			<b-button class="btn" variant="primary" :to="{name: 'HelloWorld'}" block><b-icon icon="house-fill"></b-icon>&nbsp;&nbsp;Inicio</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
 	              			<b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
                       		<b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>	            
@@ -19,7 +35,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Crear Ingreso {{set}} {{set_dos}}</h2>
+					<h2>Crear Egreso {{set}} {{set_dos}}</h2>
 				</div>	
 			</div>
 			<div class="row">
@@ -47,15 +63,7 @@
 									<div class="col-sm-6">
 										<input type="number" name="valor" class="form-control" v-model.trin="form.valor">
 									</div>
-								</div>
-
-								<div class="form-group row">
-									<label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
-									<div class="col-sm-6">
-										<input type="text" disabled="true" name="tipo" class="form-control" v-model.trin="form.tipo">
-									</div>
-								</div>
-								
+								</div>								
 
 								<div class="form-group row">
 									<label for="categoria" class="col-sm-2 col-form-label">Cuenta</label>
@@ -97,13 +105,16 @@
 	export default {
 		data(){
 			return{
+				firstName : this.$store.state.authUser[0].first_name,
+				userId : this.$store.state.authUser[0].id,
 				form: {
 					fecha: '',
 					descripcion: '',
 					valor:0,
-					tipo:'Egreso',
+					tipo:'',
 					cuenta:'',
-					categoria:''
+					categoria:'',
+					usuario: ''
 				},
 				cuentas:[],
 				categorias:[],
@@ -126,6 +137,8 @@
 						this.new_saldo = parseInt(this.cuentas[i].saldo) - parseInt(this.form.valor)
 						this.new_nombre =  this.cuentas[i].nombre
 						this.new_tipo =  this.cuentas[i].tipo
+						this.form.usuario = this.userId
+						this.form.tipo = 'Egreso'
 					}
 				}
 			},
@@ -142,10 +155,14 @@
 			},
 		},
 		methods: {
+    		signOut(){
+    			this.$store.commit("removeToken")
+    			this.$router.push({name: 'Login'})
+    		},
 			onSubmit(evt){
 				evt.preventDefault()
 				const path = 'http://localhost:8000/api/v1.0/transactions/'
-				axios.post(path, this.form).then((response) => {
+				axios.post(path, this.form, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.fecha = response.data.fecha
 					this.form.descripcion = response.data.descripcion
 					this.form.valor = response.data.valor
@@ -162,9 +179,9 @@
 				this.updateCategory()
 			},
 			getAccounts(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/'
-				axios.get(path).then((response) => {
-					this.cuentas = response.data
+				const path = 'http://localhost:8000/api/v1.0/accounts/?usuario='+this.userId
+				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
+					this.cuentas = response.data.results
 				})
 				.catch((error) => {
 					console.log(error)
@@ -172,10 +189,10 @@
 			},
 			getCategories(){
 
-				const path = 'http://localhost:8000/api/v1.0/categories/'
+				const path = 'http://localhost:8000/api/v1.0/categories/?usuario='+this.userId
 				console.log(path)
-				axios.get(path).then((response) => {
-					this.categorias = response.data
+				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
+					this.categorias = response.data.results
 				})
 				.catch((error) => {
 					console.log(error)
@@ -188,7 +205,7 @@
         				"saldo": this.new_saldo,
         				"tipo": this.new_tipo
 				};
-				axios.put(path, config).then((response) => {
+				axios.put(path, config, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					console.log(response)
 				})
 				.catch((error) => {
@@ -205,7 +222,7 @@
         				"diferencia" : this.new_diferencia,
         				"presupuesto" : this.new_presupuesto
 				};
-				axios.put(path, config).then((response) => {
+				axios.put(path, config, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					console.log(response)
 				})
 				.catch((error) => {
@@ -223,6 +240,7 @@
 <style lang="css" scoped>
 	.container{
 		margin-left: 270px;
+		margin-top: 30px;
 	}
 
 	.card{
@@ -231,4 +249,7 @@
 	.btn{
 		text-align: left;
 	}
+  	.my-navar{
+    	margin-left: 250px;
+  	}
 </style>

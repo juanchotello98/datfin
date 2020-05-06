@@ -29,14 +29,14 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-CORS_ORIGIN_ALLOW_ALL = True
-
+CORS_ORIGIN_ALLOW_ALL = True   
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'https://localhost:3000',
-    'https://localhost:8000'
+    'https://localhost:8000',
+    'https://127.0.0.1:8080',
+    'https://127.0.0.1:8000',  
 )
-
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,10 +49,44 @@ INSTALLED_APPS = [
     'apps.budget',
     'apps.category',
     'apps.transaction',
+    'apps.user',
     'rest_framework',
     'corsheaders',
     'django_filters',
+    'rest_framework.authtoken',
 ]
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        # By default we set everything to admin,
+        # then open endpoints on a case-by-case basis
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'TEST_REQUEST_RENDERER_CLASSES': (
+        'rest_framework.renderers.MultiPartRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.TemplateHTMLRenderer'
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
+}
+
+from datetime import timedelta
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': timedelta(hours=1),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+}
+
+AUTH_USER_MODEL = 'user.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
