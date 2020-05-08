@@ -73,7 +73,7 @@
     methods: {
       onSubmit(evt){
         evt.preventDefault()
-        const path = 'http://localhost:8000/api/v1.0/users/'
+        const path = 'https://appdatfin.herokuapp.com/api/v1.0/users/'
         axios.post(path, this.form).then((response) => {
           swal("Usuario registrado exitosamente","","success")
         })

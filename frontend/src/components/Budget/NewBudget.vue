@@ -122,7 +122,7 @@
     		},
 			onSubmit(evt){
 				evt.preventDefault()
-				const path = 'http://localhost:8000/api/v1.0/budgets/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'
 				axios.post(path, this.form,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre

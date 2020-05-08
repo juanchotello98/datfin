@@ -92,7 +92,7 @@
     		},
 			onSubmit(evt){
 				evt.preventDefault()
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
 				axios.put(path, this.form,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre
@@ -107,7 +107,7 @@
 			},
 
 			getBudget(){
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
 				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.mes = response.data.mes
 					this.form.nombre = response.data.nombre

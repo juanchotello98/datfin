@@ -92,7 +92,7 @@
     			this.$router.push({name: 'Login'})
     		},
 			getAccounts(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/?usuario='+this.userId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/accounts/?usuario='+this.userId
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.accounts = response.data.results
 				})

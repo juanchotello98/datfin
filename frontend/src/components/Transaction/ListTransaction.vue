@@ -94,7 +94,7 @@
     		},
 			getTransactions(){
 
-				const path = 'http://localhost:8000/api/v1.0/transactions/?usuario='+this.userId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/transactions/?usuario='+this.userId
 				console.log(path)
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.transactions = response.data.results

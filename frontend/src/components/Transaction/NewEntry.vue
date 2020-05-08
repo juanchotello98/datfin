@@ -152,7 +152,7 @@
     		},
 			onSubmit(evt){
 				evt.preventDefault()
-				const path = 'http://localhost:8000/api/v1.0/transactions/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/transactions/'
 				axios.post(path, this.form,{'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}} ).then((response) => {
 					this.form.fecha = response.data.fecha
 					this.form.descripcion = response.data.descripcion
@@ -170,7 +170,7 @@
 				//this.updateCategory()
 			},
 			getAccounts(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/?usuario='+this.userId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/accounts/?usuario='+this.userId
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.cuentas = response.data.results
 				})
@@ -180,7 +180,7 @@
 			},
 			getCategories(){
 
-				const path = 'http://localhost:8000/api/v1.0/categories/?usuario='+this.userId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/?usuario='+this.userId
 				console.log(path)
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.categorias = response.data.results
@@ -190,7 +190,7 @@
 				})
 			},	
 			updateAccount(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/'+this.form.cuenta+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/accounts/'+this.form.cuenta+'/'
 				let config = {
 						"nombre": this.new_nombre,
         				"saldo": this.new_saldo,
@@ -205,7 +205,7 @@
 
 			},
 			updateCategory(){
-				const path = 'http://localhost:8000/api/v1.0/categories/'+this.form.categoria+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/'+this.form.categoria+'/'
 				let config = {
 						"nombre" : this.new_cnombre,
         				"planeado" : this.new_planeado,

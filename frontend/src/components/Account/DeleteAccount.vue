@@ -98,7 +98,7 @@
     		},
 			onSubmit(evt){
 				evt.preventDefault()
-				const path = 'http://localhost:8000/api/v1.0/accounts/'+this.accountId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/accounts/'+this.accountId+'/'
 				axios.delete(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.saldo = response.data.saldo
@@ -112,7 +112,7 @@
 			},
 
 			getAccount(){
-				const path = 'http://localhost:8000/api/v1.0/accounts/'+this.accountId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/accounts/'+this.accountId+'/'
 				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.saldo = response.data.saldo

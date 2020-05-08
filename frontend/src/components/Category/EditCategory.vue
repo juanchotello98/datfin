@@ -143,7 +143,7 @@
     		},
 			onSubmit(evt){
 				evt.preventDefault()
-				const path = 'http://localhost:8000/api/v1.0/categories/'+this.categoryId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/'+this.categoryId+'/'
 				axios.put(path, this.form, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.form.nombre = response.data.nombre
 					this.form.planeado = response.data.planeado
@@ -159,7 +159,7 @@
 
 			},
 			getCategory(){
-				const path = 'http://localhost:8000/api/v1.0/categories/'+this.categoryId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/'+this.categoryId+'/'
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.categoria = response.data
 					this.form.nombre = response.data.nombre
@@ -173,7 +173,7 @@
 				}) 
 			},
 			getCategories(){
-				const path = 'http://localhost:8000/api/v1.0/categories/?presupuesto='+this.budgetId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/?presupuesto='+this.budgetId
 				console.log(path)
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.categories = response.data.results
@@ -183,7 +183,7 @@
 				})
 			},
 			getBudget(){
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.presupuesto = response.data
 				})
@@ -192,7 +192,7 @@
 				}) 
 			},
 			updateBudget(){
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
 				let config = {
 						"mes": this.form_put.put_mes,
         				"nombre": this.form_put.put_nombre,

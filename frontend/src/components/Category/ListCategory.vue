@@ -103,7 +103,7 @@
     			this.$router.push({name: 'Login'})
     		},
 			getCategories(){
-				const path = 'http://localhost:8000/api/v1.0/categories/?presupuesto='+this.budgetId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/?presupuesto='+this.budgetId
 				console.log(path)
 				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.categories = response.data.results
@@ -113,7 +113,7 @@
 				})
 			},
 			getBudget(){
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
 				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.presupuesto = response.data
 				})
@@ -131,7 +131,7 @@
 				this.new_pnombre = this.presupuesto.nombre
 				this.new_pusuario = this.presupuesto.usuario
 
-				const path = 'http://localhost:8000/api/v1.0/budgets/'+this.budgetId+'/'
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
 				let config = {
 						"mes" : this.new_mes,
 						"nombre" : this.new_pnombre,

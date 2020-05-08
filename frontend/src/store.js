@@ -15,9 +15,9 @@ export const store = new Vuex.Store({
     jwt: localStorage.getItem('token'),
     endpoints: {
       // TODO: Remove hardcoding of dev endpoints
-      obtainJWT: 'http://localhost:8000/api/v1.0/auth/obtain_token/',
-      refreshJWT: 'http://localhost:8000/api/v1.0/auth/refresh_token/',
-      baseUrl: 'http://localhost:8000/api/v1.0/'
+      obtainJWT: 'https://appdatfin.herokuapp.com/api/v1.0/auth/obtain_token/',
+      refreshJWT: 'https://appdatfin.herokuapp.com/api/v1.0/auth/refresh_token/',
+      baseUrl: 'https://appdatfin.herokuapp.com/api/v1.0/'
     }
   },
 
