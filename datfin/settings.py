@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-pmhnbt@_fnjhv)y8*#193@=w85tt+$r9@%ap(&@)od4y5f+@8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 #DEBUG = True
 
 ALLOWED_HOSTS = ['*']
