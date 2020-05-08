@@ -19,20 +19,19 @@
       <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
         <template v-slot:default="{ hide }">
             <div class="p-3">
-                <h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
-                <nav class="mb-3">
-                  <b-nav vertical>
-                      <b-button class="btn" variant="primary" :to="{name: 'HelloWorld'}" block><b-icon icon="house-fill"></b-icon>&nbsp;&nbsp;Inicio</b-button>
-                      <b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
-                      <b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
-                      <b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>
-                  </b-nav>
-                </nav>
+                  <h4 id="sidebar-no-header-title"><b-icon icon="graph-up"></b-icon> &nbsp;DATFIN</h4>
+                  <nav class="mb-3">
+                    <b-nav vertical>
+                        <b-button class="btn" variant="primary" :to="{name: 'HelloWorld'}" block><b-icon icon="house-fill"></b-icon>&nbsp;&nbsp;Inicio</b-button>
+                        <b-button class="btn" variant="primary" :to="{name: 'ListAccount'}" block><b-icon icon="credit-card"></b-icon>&nbsp;&nbsp;Cuentas</b-button>
+                        <b-button class="btn" variant="primary" :to="{name: 'ListBudget'}" block><b-icon icon="wallet"></b-icon> &nbsp;Presupuestos</b-button>
+                        <b-button class="btn" variant="primary" :to="{name: 'ListTransaction'}" block><b-icon icon="arrow-left-right"></b-icon> &nbsp;Transacciones</b-button>
+                    </b-nav>
+                  </nav>
             </div>
           </template>
       </b-sidebar>
     </div>
-
   </div>
 </template>
 
@@ -40,9 +39,11 @@
 export default {
   data () {
     return {
-    userId : this.$store.state.authUser[0].id,
-    firstName : this.$store.state.authUser[0].first_name
+      userId : this.$store.state.authUser[0].id,
+      firstName : this.$store.state.authUser[0].first_name,
     }
+  },
+  computed:{
   },
   methods:{
     signOut(){
@@ -60,5 +61,9 @@ export default {
   }
   .my-navar{
     margin-left: 250px;
+  }
+  #my-chart{
+    margin-left: 300px;
+    margin-top: 30px;
   }
 </style>
