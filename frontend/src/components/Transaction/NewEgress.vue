@@ -35,7 +35,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-left">
-					<h2>Crear Egreso {{set}} {{set_dos}}</h2>
+					<h2>Crear Egreso {{set}} {{set_dos}} {{set_tres}}</h2>
 				</div>	
 			</div>
 			<div class="row">
@@ -70,6 +70,16 @@
 							  		<div class="col-sm-6">
 	    				        		<select v-model="form.cuenta" class="form-control" id="cuenta">
             								<option v-for="cuenta in cuentas" :value="cuenta.id">{{cuenta.nombre}} ({{ cuenta.saldo }})</option>
+        								</select>
+        							
+	    							</div>
+								</div>
+
+								<div class="form-group row">
+									<label for="presupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
+							  		<div class="col-sm-6">
+	    				        		<select @change="getCategories($event)" v-model="form.presupuesto" class="form-control" id="presupuesto">
+            								<option v-for="presupuesto in presupuestos" :value="presupuesto.id">{{presupuesto.nombre}}</option>
         								</select>
         							
 	    							</div>
@@ -113,10 +123,12 @@
 					valor:0,
 					tipo:'',
 					cuenta:'',
+					presupuesto:'',
 					categoria:'',
 					usuario: ''
 				},
 				cuentas:[],
+				presupuestos:[],
 				categorias:[],
 
 				new_saldo: 0,
@@ -124,10 +136,16 @@
 				new_tipo:'',
 
 				new_cnombre:'',
-				new_planeado:0,
-				new_actual:0,
-				new_diferencia:0,
-				new_presupuesto:''
+				new_planeado:'',
+				new_actual:'',
+				new_diferencia:'',
+				new_presupuesto:'',
+
+				pnew_total_actual:'',
+				pnew_total_planeado:'',
+				pnew_mes:'',
+				pnew_pnombre:'',
+				pnew_pusuario:''
 			}
 		},
 		computed:{
@@ -153,6 +171,17 @@
 					}
 				}
 			},
+			set_tres: function(){
+				for(var i=0; i < this.presupuestos.length; i++){
+					if(this.presupuestos[i].id===parseInt(this.form.presupuesto)){
+						this.pnew_total_actual = parseInt(this.presupuestos[i].total_actual) + parseInt(this.form.valor)
+						this.pnew_total_planeado = this.presupuestos[i].total_planeado
+						this.pnew_mes = this.presupuestos[i].mes
+						this.pnew_pnombre = this.presupuestos[i].nombre
+						this.pnew_pusuario = this.presupuestos[i].usuario
+					}
+				}
+			}
 		},
 		methods: {
     		signOut(){
@@ -176,6 +205,7 @@
 					swal("El egreso no ha sido creado","","error")
 				})
 				this.updateAccount()
+				this.updateBudget()
 				this.updateCategory()
 			},
 			getAccounts(){
@@ -187,9 +217,18 @@
 					console.log(error)
 				})
 			},
-			getCategories(){
+			getBudgets(){
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/?usuario='+this.userId
+				axios.get(path,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
+					this.presupuestos = response.data.results
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+			},
+			getCategories(event){
 
-				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/?usuario='+this.userId
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/categories/?presupuesto='+event.target.value
 				console.log(path)
 				axios.get(path, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
 					this.categorias = response.data.results
@@ -229,10 +268,26 @@
 					console.log(error)
 				})
 			},
+			updateBudget(){
+				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.form.presupuesto+'/'
+				let config = {
+						"mes" : this.pnew_mes,
+        				"nombre" : this.pnew_pnombre,
+        				"total_planeado"  : this.pnew_total_planeado,
+        				"total_actual" : this.pnew_total_actual,
+        				"usuario" : this.pnew_pusuario
+				};
+				axios.put(path, config, {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
+					console.log(response)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+			},
 		},
 		created(){
 			this.getAccounts()
-			this.getCategories()
+			this.getBudgets()
 		}
 	}	
 </script>

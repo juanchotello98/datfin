@@ -15,6 +15,11 @@
         </b-collapse>
       </b-navbar>
     </div>
+    <div id="inicio">
+      <h2>
+        <i>Bienvenido a DATFIN, aquí puedes registrar cuentas, registrar prespuestos y asignarles categorias y también puedes registrar transacciones con base en tus cuentas y presupuestos.</i>
+      </h2>
+    </div>
     <div>
       <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header visible width="250px" shadow>
         <template v-slot:default="{ hide }">
@@ -65,5 +70,9 @@ export default {
   #my-chart{
     margin-left: 300px;
     margin-top: 30px;
+  }
+  #inicio{
+    margin-left: 300px;
+    margin-top: 200px;
   }
 </style>

@@ -36,14 +36,17 @@
 			<div class="row">
 				<div class="col text-left">
 					<div>
-						<h2>Listado de Categorias </h2>
+						<h2>{{presupuesto.nombre}}:&nbsp;Listado de Categorias </h2>
 						<b-button size="sm" :to="{name: 'NewCategory'}" variant="primary" >Crear Categorias</b-button>
 						<b-button size="sm" :to="{name: 'ListBudget'}" variant="secondary" >Volver</b-button>
-						<b-button size="sm" variant="success" v-on:click="set" >Actualizar</b-button>
 					</div>
 					<br>
 				</div>
-				<div class="col-md-12">
+				<div v-if="categories.length===0" class="col-md-12">
+					<b-spinner variant="primary" label="Spinning"></b-spinner>
+					<span class="primary">Cargando...</span>
+				</div>
+				<div v-else class="col-md-12">
 					<b-table class="my-table" small id="my-table" striped hover :items="categories" :fields="fields"  :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditCategory', params: { categoryId: data.item.id } }">Editar</b-button>
@@ -83,13 +86,7 @@
 				categories: [],
 				presupuesto: [],
 				perPage: 5,
-        		currentPage: 1,
-        		new_pnombre:'',
-        		new_mes:'',
-        		new_total_planeado:0,
-        		new_total_actual:0,
-        		new_pusuario:''
-
+        		currentPage: 1
 			}
 		},
     	computed: {
@@ -120,33 +117,7 @@
 				.catch((error) => {
 					console.log(error)
 				}) 
-			},
-			set: function(event){
-				this.new_total_actual = 0;
-				for(var i=0; i < this.categories.length; i++){
-					this.new_total_actual = this.new_total_actual + this.categories[i].actual
-				}
-				this.new_total_planeado = this.presupuesto.total_planeado
-				this.new_mes = this.presupuesto.mes
-				this.new_pnombre = this.presupuesto.nombre
-				this.new_pusuario = this.presupuesto.usuario
-
-				const path = 'https://appdatfin.herokuapp.com/api/v1.0/budgets/'+this.budgetId+'/'
-				let config = {
-						"mes" : this.new_mes,
-						"nombre" : this.new_pnombre,
-        				"total_planeado" : this.new_total_planeado,
-        				"total_actual"  : this.new_total_actual,
-        				"usuario" : this.new_pusuario
-				};
-				axios.put(path, config,  {'headers': {'Authorization' : 'JWT ' + this.$store.state.jwt}}).then((response) => {
-					console.log(response)
-					swal("Actualizadas exitosamente","","success")
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-			},
+			}
 		},
 
 		created(){

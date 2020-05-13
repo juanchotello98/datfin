@@ -42,7 +42,11 @@
 					</div>
 					<br>
 				</div>
-				<div class="col-md-12">
+				<div v-if="transactions.length===0" class="col-md-12">
+					<b-spinner variant="primary" label="Spinning"></b-spinner>
+					<span class="primary">Cargando...</span>
+				</div>
+				<div v-else class="col-md-12">
 					<b-table class="my-table" small id="my-table" striped hover :items="transactions" :fields="fields"  :per-page="perPage" :current-page="currentPage" default>
 						<template v-slot:cell(action)="data">
 							<b-button size="sm" variant="primary" :to="{ name: 'EditCategory', params: { categoryId: data.item.id } }">Editar</b-button>
@@ -75,6 +79,7 @@
 				{ key: 'valor', label:'Valor' },
 				{ key: 'tipo', label:'Tipo' },
 				{ key: 'cuenta', label:'Cuenta' },
+				{ key: 'presupuesto', label: 'Presupuesto'},
 				{ key: 'categoria', label: 'Categoria'}
 				],
 				transactions: [],

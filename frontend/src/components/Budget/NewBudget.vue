@@ -58,20 +58,6 @@
 										<input type="text" name="nombre" class="form-control" v-model.trin="form.nombre">
 									</div>
 								</div>
-								
-								<div class="form-group row">
-									<label for="total_planeado" class="col-sm-2 col-form-label">Total Planeado</label>
-									<div class="col-sm-6">
-										<input type="number" disabled="true" name="total_planeado" class="form-control" v-model.trin="form.total_planeado=initial">
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<label for="total_actual" class="col-sm-2 col-form-label">Total Actual</label>
-									<div class="col-sm-6">
-										<input type="number" disabled="true" name="total_actual" class="form-control" v-model.trin="form.total_actual=initial">
-									</div>
-								</div>
 
 								<div class="rows">
 									<div class="col text-left">
@@ -100,17 +86,13 @@
 				form: {
 					mes: '',
 					nombre: '',
-					total_planeado:'',
-					total_actual:'',
+					total_planeado: 0,
+					total_actual: 0,
 					usuario:''
 				}
 			}
 		},
 		computed:{
-			initial: function(){
-				var initial = 0;
-				return initial
-			},
 			set: function(){
 				this.form.usuario = this.userId
 			}
